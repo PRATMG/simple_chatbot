@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Simple Q and A Chatbot</title>
+    <style>
+        body {
+            font-family: system-ui, sans-serif;
+            max-width: 600px;
+            margin: 2rem auto;
+            line-height: 1.4;
+        }
+        .bubble-user {
+            background: #eef;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .bubble-bot {
+            background: #efe;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        form {
+            margin-top: 2rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+        input[type="text"] {
+            flex: 1;
+            padding: 0.5rem;
+            font-size: 1rem;
+            border: 2px solid #8da8f8;
+            border-radius: 4px;
+        }
+        button {
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        h1 {
+            margin-bottom: 1rem;
+        }
+        code {
+            background: #f5f5f5;
+            padding: 0.15rem 0.3rem;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Simple Q and A Chatbot</h1>
+
+    <!-- conversation history -->
+    {% if history %}
+        {% for turn in history %}
+            {% if turn.role == "user" %}
+                <div class="bubble-user">
+                    <strong>You:</strong> {{ turn.text }}
+                </div>
+            {% else %}
+                <div class="bubble-bot">
+                    <strong>Bot:</strong> {{ turn.text }}
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+    <!-- input form -->
+    <form method="POST">
+        {% csrf_token %}
+        <input
+            type="text"
+            name="message"
+            placeholder="Ask me something..."
+            autofocus
+        />
+        <button type="submit">Send</button>
+    </form>
+
+    <p style="margin-top: 2rem;">
+        Tip: You can also run the bot in the terminal with
+        <code>python manage.py terminal_bot</code>
+    </p>
+
+</body>
+</html>
